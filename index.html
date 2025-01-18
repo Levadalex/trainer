@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тренажер</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/3.4.1/css/bootstrap.min.css">
+    <style>
+        .block {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+            background-color: #f9f9f9;
+            position: relative;
+        }
+        .block h4 {
+            margin-bottom: 15px;
+        }
+        .task {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-weight: bold;
+            color: #0056b3;
+            font-size: 1.5em;
+        }
+        table.table-bordered th,
+        table.table-bordered td {
+            border: 1px solid #000 !important;
+        }
+        .rules {
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px solid #007bff;
+            border-radius: 5px;
+            background-color: #e9f7ff;
+        }
+        .rules h4 {
+            color: #0056b3;
+        }
+        #error-messages {
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        #error-messages.success {
+            color: green;
+        }
+        #error-messages.error {
+            color: red;
+        }
+        .error-highlight {
+            border: 2px solid red !important;
+            background-color: #ffe6e6;
+        }
+    </style>
+    <script src="https://apis.google.com/js/api.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="block">
+            <h4>Дані справи</h4>
+            <div class="task" id="task">Завдання: </div>
+            <p><strong>Код бенефіціара:</strong> KY2_0001</p>
+            <p><strong>Дата опитування:</strong> 01.01.2025</p>
+            <p><strong>ПІБ:</strong> Бенефіціар</p>
+            <p><strong>Контактний телефон:</strong> 0999999999</p>
+            <p><strong>Опис проблеми:</strong> Бенефіціар потребує допомоги</p>
+            <p><strong>Стать:</strong> Жін.</p>
+            <p><strong>Вікова категорія:</strong> 60-74</p>
+            <p>
+                <strong>Гравець:</strong>
+                <input id="player-name" type="text" class="form-control" placeholder="Введіть прізвище" required>
+            </p>
+            <p>
+            <p><strong>Відповідальний:</strong> Гравець</p>
+            <p>
+                <strong>Статус справи:</strong>
+                <select id="case-status" class="form-control" style="width: auto; display: inline-block;">
+                    <option selected>Виберіть</option>
+                    <option>Без статусу</option>
+                    <option>Успішно вирішено</option>
+                    <option>В процесі роботи</option>
+                </select>
+            </p>
+        </div>
+
+        <div class="block">
+            <h4>Питання</h4>
+            <table class="table table-bordered">
+                <tr>
+                    <th>Дата Питання</th>
+                    <th>Проект/Питання</th>
+                    <th>Вид допомоги</th>
+                    <th>Коментарі</th>
+                    <th>Реквізити справи</th>
+                    <th>Поточний статус</th>
+                    <th>Дата статусу</th>
+                    <th>Відповідальний</th>
+                </tr>
+                <tr>
+                    <td>01.01.2025</td>
+                    <td>IDP/відновлення документів щодо права власності</td>
+                    <td>
+                        <select id="help-type" class="form-control" style="width: auto; display: inline-block;">
+                            <option selected>Виберіть</option>
+                            <option>Первинна</option>
+                            <option>Вторинна</option>
+                        </select>
+                    </td>
+                    <td>Бенефіціар звернувся з питанням відновлення втрачених документів на нерухоме майно</td>
+                    <td><input id="case-details" type="text" class="form-control" placeholder="Введіть цифри" required></td>
+                    <td>
+                        <select id="current-status" class="form-control" style="width: auto; display: inline-block;">
+                            <option selected>Виберіть</option>
+                            <option>Без статусу</option>
+                            <option>Успішно вирішено</option>
+                            <option>В процесі роботи</option>
+                        </select>
+                    </td>
+                    <td><input id="status-date" type="date" class="form-control" min="2025-01-02"></td>
+                    <td>Гравець</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="block">
+            <h4>Роботи</h4>
+            <table class="table table-bordered">
+                <tr>
+                    <th>Вид роботи</th>
+                    <th>Спосіб</th>
+                    <th>Галузь права</th>
+                    <th>Створив</th>
+                    <th>Результат</th>
+                    <th>Коментарі</th>
+                    <th>Дата</th>
+                    <th>Дата рішення суду</th>
+                </tr>
+                <tr>
+                    <td>
+                        <select id="work-type-1" class="form-control">
+                            <option selected>Виберіть</option>
+                            <option>Судове провадження-документи: 1 інстанція</option>
+                            <option>Судове представництво - 1 інстанція</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select class="form-control">
+                            <option selected>Виберіть</option>
+                            <option>Офіс</option>
+                            <option>Візит до суду</option>
+                            <option>Пошта</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select class="form-control">
+                            <option selected>Виберіть</option>
+                            <option>Цивільне</option>
+                            <option>Адміністративне</option>
+                        </select>
+                    </td>
+                    <td>Гравець</td>
+                    <td>
+                        <select id="result-1" class="form-control">
+                            <option selected>Виберіть</option>
+                            <option>Без статусу</option>
+                            <option>В процесі роботи</option>
+                            <option>Успішно вирішено</option>
+                        </select>
+                    </td>
+                    <td>Роботу виконано</td>
+                    <td><input id="work-date-1" type="date" class="form-control" min="2025-01-02"></td>
+                    <td><input type="date" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <select id="work-type-2" class="form-control">
+                            <option selected>Виберіть</option>
+                            <option>Судове провадження-документи: 1 інстанція</option>
+                            <option>Судове представництво - 1 інстанція</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select class="form-control">
+                            <option selected>Виберіть</option>
+                            <option>Офіс</option>
+                            <option>Візит до суду</option>
+                            <option>Пошта</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select class="form-control">
+                            <option selected>Виберіть</option>
+                            <option>Цивільне</option>
+                            <option>Адміністративне</option>
+                        </select>
+                    </td>
+                    <td>Гравець</td>
+                    <td>
+                        <select id="result-2" class="form-control">
+                            <option selected>Виберіть</option>
+                            <option>Без статусу</option>
+                            <option>В процесі роботи</option>
+                            <option>Успішно вирішено</option>
+                        </select>
+                    </td>
+                    <td>Роботу виконано</td>
+                    <td><input id="work-date-2" type="date" class="form-control" min="2025-01-02"></td>
+                    <td><input id="court-decision-date" type="date" class="form-control" min="2025-01-02"></td>
+                </tr>
+            </table>
+        </div>
+
+        <button id="validate-button" class="btn btn-primary">Перевірка</button>
+        <div id="error-messages"></div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const taskElement = document.getElementById('task');
+                const randomTask = Math.random() < 0.5 ? 1 : 2;
+
+                if (randomTask === 1) {
+                    taskElement.textContent = 'Завдання: Заповніть подану судову справу.';
+                } else {
+                    taskElement.textContent = 'Завдання: Заповніть завершену судову справу.';
+                }
+
+                const API_KEY = 'AIzaSyDlaSHPvh-KUw4fpyC2hRrP2k7JK-B06-g';
+                const SHEET_ID = '1D2mCR5jkUhZ0GPwgQKA7VD4GKh8eNyGn8zyJrrMSMAE';
+                const RANGE = 'Sheet1!A1:H';
+
+                gapi.load('client', () => {
+                    gapi.client.init({
+                        apiKey: API_KEY,
+                        discoveryDocs: ["https://sheets.googleapis.com/$discovery/rest?version=v4"],
+                    });
+                });
+
+                document.getElementById('validate-button').addEventListener('click', function () {
+                    const playerName = document.getElementById('player-name').value;
+                    const caseStatus = document.getElementById('case-status').value;
+                    const currentStatus = document.getElementById('current-status').value;
+                    const result2 = document.getElementById('result-2').value;
+                    const helpType = document.getElementById('help-type').value;
+                    const statusDate = document.getElementById('status-date').value;
+                    const workDate2 = document.getElementById('work-date-2').value;
+                    const workType1 = document.getElementById('work-type-1').value;
+                    const workType2 = document.getElementById('work-type-2').value;
+
+                    const errors = [];
+
+                    if (!playerName) {
+                        errors.push('Поле "Гравець" не може бути порожнім.');
+                    }
+                    if (caseStatus === 'Виберіть') {
+                        errors.push('Поле "Статус справи" має бути обрано.');
+                    }
+                    if (currentStatus === 'Виберіть') {
+                        errors.push('Поле "Поточний статус" має бути обрано.');
+                    }
+                    if (helpType !== 'Вторинна') {
+                        errors.push('Поле "Вид допомоги" має бути "Вторинна".');
+                    }
+                    if (!statusDate) {
+                        errors.push('Поле "Дата статусу" не може бути порожнім.');
+                    }
+                    if (!workDate2) {
+                        errors.push('Поле "Дата роботи" у 2 рядку 3 блоку не може бути порожнім.');
+                    }
+                    if (workType1 !== 'Судове провадження-документи: 1 інстанція') {
+                        errors.push('У 1 рядку 3 блоку "Вид роботи" має бути "Судове провадження-документи: 1 інстанція".');
+                    }
+                    if (workType2 !== 'Судове представництво - 1 інстанція') {
+                        errors.push('У 2 рядку 3 блоку "Вид роботи" має бути "Судове представництво - 1 інстанція".');
+                    }
+
+                    const caseDetails = document.getElementById('case-details').value;
+                    if (!caseDetails || !/^\d+$/.test(caseDetails)) {
+                        errors.push('Поле "Реквізити справи" не може бути порожнім і має містити лише цифри.');
+                    }
+
+                    const errorMessages = document.getElementById('error-messages');
+                    if (errors.length) {
+                        errorMessages.className = 'error';
+                        errorMessages.innerHTML = '<ul><li>' + errors.join('</li><li>') + '</li></ul>';
+                    } else {
+                        errorMessages.className = 'success';
+                        errorMessages.innerHTML = 'Вітаю! Усі дані заповнені правильно!';
+
+                        const data = [
+                            [
+                                new Date().toLocaleString(),
+                                playerName,
+                                caseStatus,
+                                currentStatus,
+                                randomTask === 1 ? 'Подана судова справа' : 'Завершена судова справа',
+                            ],
+                        ];
+
+                                              gapi.client.sheets.spreadsheets.values.append({
+                            spreadsheetId: SHEET_ID,
+                            range: RANGE,
+                            valueInputOption: 'RAW',
+                            resource: { values: data },
+                        }).then(response => {
+                            console.log('Дані успішно додані в таблицю:', response);
+                            alert('Дані успішно збережені в таблиці.');
+                        }).catch(error => {
+                            console.error('Помилка додавання даних:', error);
+                            alert('Сталася помилка під час збереження даних.');
+                        });
+                    }
+                });
+            });
+        </script>
+    </div>
+</body>
+</html>
