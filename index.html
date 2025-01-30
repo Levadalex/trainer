@@ -109,7 +109,7 @@
                         </select>
                     </td>
                     <td>Бенефіціар звернувся з питанням відновлення втрачених документів на нерухоме майно</td>
-                    <td><input id="case-details" type="text" class="form-control" placeholder="Введіть цифри" required></td>
+                    <td><input id="case-details" type="text" class="form-control" placeholder="Введіть цифри або /" required></td>
                     <td>
                         <select id="current-status" class="form-control" style="width: auto; display: inline-block;">
                             <option selected>Виберіть</option>
@@ -247,6 +247,7 @@
                     const workDate2 = document.getElementById('work-date-2').value;
                     const workType1 = document.getElementById('work-type-1').value;
                     const workType2 = document.getElementById('work-type-2').value;
+                    const caseDetails = document.getElementById('case-details').value;
 
                     const errors = [];
 
@@ -275,9 +276,9 @@
                         errors.push('У 2 рядку 3 блоку "Вид роботи" має бути "Судове представництво - 1 інстанція".');
                     }
 
-                    const caseDetails = document.getElementById('case-details').value;
-                    if (!caseDetails || !/^\d+$/.test(caseDetails)) {
-                        errors.push('Поле "Реквізити справи" не може бути порожнім і має містити лише цифри.');
+                    // Нова валідація для поля "Реквізити справи"
+                    if (!caseDetails || !/^[\d/]+$/.test(caseDetails)) {
+                        errors.push('Поле "Реквізити справи" не може бути порожнім і має містити лише цифри та символи "/".');
                     }
 
                     const errorMessages = document.getElementById('error-messages');
@@ -298,7 +299,7 @@
                             ],
                         ];
 
-                                              gapi.client.sheets.spreadsheets.values.append({
+                        gapi.client.sheets.spreadsheets.values.append({
                             spreadsheetId: SHEET_ID,
                             range: RANGE,
                             valueInputOption: 'RAW',
